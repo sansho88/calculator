@@ -119,8 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: sendDebugMsg,
                 style: const ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll<Color>(Colors.white12)),
+                    backgroundColor: MaterialStatePropertyAll<Color>(Colors.white12),
+                    elevation: MaterialStatePropertyAll<double>(1.42)
+                ),
                 child: const Icon(Icons.adb)),
           ], // This trailing comma makes auto-formatting nicer for build methods.
         ),
