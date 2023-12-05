@@ -1,3 +1,4 @@
+import 'package:math_expressions/math_expressions.dart';
 import 'package:flutter/material.dart';
 
 import 'MyButton.dart';
@@ -33,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  var result = 0;
+  var result = 0.0;
   var expression = "0";
 
   final List<String> buttons =[
@@ -62,6 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void putButtonToExpression(String value){
 
+  }
+
+  void equalPressed(){
+    String finishedExpression = expression;
+    finishedExpression = expression.replaceAll('x', '*');
+
+    Parser parser = Parser();
+    Expression exp = parser.parse(finishedExpression);
+    ContextModel contextModel = ContextModel();
+    double eval = exp.evaluate(EvaluationType.REAL, contextModel);
+    result = eval;
   }
 
 
@@ -96,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: const EdgeInsets.all(15),
                         alignment: Alignment.centerRight,
                         child: Text(
-                          result.toString(),
+                          "result.toStringAsFixed(10)",
                           style: const TextStyle(fontSize: 16, color: Colors.green),
                         ),
                       )
@@ -109,27 +121,70 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4),
                       itemBuilder: (BuildContext context, int index){
-                        if (index == 0){
-                          return MyButton(numKey:(){
-                            setState(() {
-                              expression = '';
-                              result = 0;
-                            });
-                          },
-                          buttonText: buttons[index],
-                          color: Colors.grey,
-                          textColor: Colors.black,
+                        if (index == 0) {
+                          return MyButton(
+                            numKey: () {
+                              setState(() {
+                                expression = '';
+                                result = 0.0;
+                              });
+                            },
+                            buttonText: buttons[index],
+                            color: Colors.grey,
+                            textColor: Colors.black,
+                          );
+                        } else if (index == 1) {
+                          return MyButton(
+                            buttonText: buttons[index],
+                            color: Colors.grey,
+                            textColor: Colors.black,
+                          );
+                        } else if (index == 2) {
+                          return MyButton(
+                            numKey: () {
+                              setState(() {
+                                expression += buttons[index];
+                              });
+                            },
+                            buttonText: buttons[index],
+                            color: Colors.grey,
+                            textColor: Colors.black,
+                          );
+                        } else if (index == 3) {
+                          return MyButton(
+                            numKey: () {
+                              setState(() {
+                                expression = expression.substring(0, expression.length - 1);
+                              });
+                            },
+                            buttonText: buttons[index],
+                            color: Colors.grey,
+                            textColor: Colors.black,
+                          );
+                        } else if (index == 18) {
+                          return MyButton(
+                            numKey: () {
+                              setState(() {
+                                equalPressed();
+                              });
+                            },
+                            buttonText: buttons[index],
+                          );
+                        } else {
+                          return MyButton(
+                            numKey: () {
+                              setState(() {
+                                expression += buttons[index];
+                              });
+                            },
+                            buttonText: buttons[index],
                           );
                         }
+
                       })
                 ))
           ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: mytest,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

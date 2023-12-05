@@ -6,7 +6,7 @@ class MyButton extends StatelessWidget{
   final String buttonText;
   final numKey;
 
-  MyButton({this.color, this.textColor, required this.buttonText, required this.numKey})
+  const MyButton({super.key, this.color, this.textColor, required this.buttonText, this.numKey});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class MyButton extends StatelessWidget{
 
        ),
      ),
-   )
+   );
   }
 
 }
