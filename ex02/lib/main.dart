@@ -107,14 +107,24 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void equalPressed(){
+    if (expression.isEmpty)
+      return;
     String finishedExpression = expression;
     finishedExpression = expression.replaceAll('x', '*');
 
-    Parser parser = Parser();
-    Expression exp = parser.parse(finishedExpression);
-    ContextModel contextModel = ContextModel();
-    double eval = exp.evaluate(EvaluationType.REAL, contextModel);
-    result = eval;
+    try{
+      Parser parser = Parser();
+      Expression exp = parser.parse(finishedExpression);
+      ContextModel contextModel = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, contextModel);
+      result = eval;
+    }catch(e){
+      if (e.runtimeType == RangeError)
+        debugPrint("Something must follow the operator...");
+      else
+        debugPrint("You can\'t use it like that. Error: $e ");
+      expression = "";
+    }
   }
 
   @override
@@ -128,22 +138,32 @@ class _MyHomePageState extends State<MyHomePage> {
       body:Column( mainAxisAlignment: MainAxisAlignment.spaceAround,
 
           children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          expression.isEmpty ? "0": expression,
-                          style: const TextStyle(fontSize: 42, color: Colors.amber),
-                        ),
+            SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        expression.isEmpty ? "0": expression,
+                        style: const TextStyle(fontSize: 42, color: Colors.amber),
+                        softWrap: true,
+                        maxLines: MediaQuery.of(context).orientation == Orientation.portrait ? 6 : 1,
+
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(15),
-                        alignment: Alignment.topRight,
-                        child: Text( result == 0 ? result.toStringAsPrecision(1) :
-                        result.toStringAsFixed(10),
-                          style: const TextStyle(fontSize: 42, color: Colors.green),
-                        ),
-                      )
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(15),
+                      alignment: Alignment.topRight,
+                      child: Text( result == 0 ? result.toStringAsPrecision(1) :
+                      result.toStringAsFixed(10),
+                        style: const TextStyle(fontSize: 42, color: Colors.green),
+                      ),
+                    )
+                  ],
+                ),
+            )
+
               ,
             Expanded(flex: 2,
                 child: Align(alignment: Alignment.bottomCenter,
