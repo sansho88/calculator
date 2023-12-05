@@ -5,13 +5,15 @@ class MyButton extends StatelessWidget{
   final textColor;
   final String buttonText;
   final numKey;
+  final aspectRatio;
 
-  const MyButton({super.key, this.color, this.textColor, required this.buttonText, this.numKey});
+  const MyButton({super.key, this.color, this.textColor, required this.buttonText, this.numKey, required this.aspectRatio});
 
   @override
   Widget build(BuildContext context) {
    return GestureDetector(
      onTap: numKey,
+     child: AspectRatio(aspectRatio: aspectRatio,
      child:  Padding(
        padding: const EdgeInsets.all(0.2),
        child: ClipRRect(
@@ -31,7 +33,8 @@ class MyButton extends StatelessWidget{
          ),
 
        ),
-     ),
+     ),),
+
    );
   }
 

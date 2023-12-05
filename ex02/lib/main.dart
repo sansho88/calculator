@@ -40,8 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<String> buttons =[
     'AC',
     'C',
-    '+/-',
     '%',
+    '00',
     '=',
     '7',
     '8',
@@ -56,11 +56,51 @@ class _MyHomePageState extends State<MyHomePage> {
     '1',
     '2',
     '3',
-    '.',
-    '00',
     '0',
+    '.',
   ];
 
+  MyButton getTouchedButton(int index, double aspectRatio){
+
+    switch(buttons[index]){
+      case "AC": return MyButton(numKey:(){
+        setState(() {
+          expression = '';
+          result = 0.0;
+          putButtonToDebug(buttons[index]);
+        });
+      }, buttonText: buttons[index], color: Colors.redAccent, textColor: Colors.black, aspectRatio: aspectRatio,);
+
+      case "%":  return MyButton(numKey: (){
+        setState(() {
+          expression += buttons[index];
+          putButtonToDebug(buttons[index]);
+        });
+      },buttonText: buttons[index], color: Colors.grey, textColor: Colors.black,aspectRatio: aspectRatio);
+
+      case "C": return MyButton(numKey: (){
+        setState(() {
+          expression = expression.substring(0, expression.length - 1);
+          putButtonToDebug(buttons[index]);
+        });
+      },buttonText: buttons[index], color: Colors.grey, textColor: Colors.black,aspectRatio: aspectRatio);
+
+      case "=": return MyButton(numKey: (){
+        setState(() {
+          equalPressed();
+          putButtonToDebug(buttons[index]);
+        });
+      },buttonText: buttons[index],aspectRatio: aspectRatio, color: Colors.orange,);
+      default: return MyButton(numKey: (){
+        setState(() {
+          expression += buttons[index];
+          putButtonToDebug(buttons[index]);
+        });
+      },buttonText: buttons[index],
+        color: Colors.amberAccent,aspectRatio: aspectRatio
+      );
+    }
+  }
 
   void putButtonToDebug(String value){
     debugPrint("Button: $value");
@@ -77,10 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
     result = eval;
   }
 
-
-  void mytest(){
-
-  }
   @override
   Widget build(BuildContext context) {
 
@@ -89,17 +125,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
         title: Text(widget.title),
       ),
-      body:Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+      body:Column( mainAxisAlignment: MainAxisAlignment.spaceAround,
+
           children: <Widget>[
-            Expanded(
-              child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
                       Container(
                         padding: const EdgeInsets.all(20),
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.topRight,
                         child: Text(
                           expression.isEmpty ? "0": expression,
                           style: const TextStyle(fontSize: 42, color: Colors.amber),
@@ -107,67 +138,28 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Container(
                         padding: const EdgeInsets.all(15),
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.topRight,
                         child: Text( result == 0 ? result.toStringAsPrecision(1) :
                         result.toStringAsFixed(10),
                           style: const TextStyle(fontSize: 42, color: Colors.green),
                         ),
                       )
-                    ],
-                  )
-                ),
-              ),
-            Expanded(flex: 1,
-                child: Container(
-                  child: GridView.builder(
-                      itemCount: buttons.length
-                      ,gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5),
-                      itemBuilder: (BuildContext context, int index){
-                        switch(buttons[index]){
-                          case "AC": return MyButton(numKey:(){
-                            setState(() {
-                              expression = '';
-                              result = 0.0;
-                              putButtonToDebug(buttons[index]);
-                            });
-                          }, buttonText: buttons[index], color: Colors.grey, textColor: Colors.black,);
-                          case "+/-":  return MyButton(numKey: (){
-                            putButtonToDebug(buttons[index]);
-                            expression = expression[0] == '-' ? expression.substring(1): '-$expression';
-                          },
-                            buttonText: buttons[index], color: Colors.grey, textColor: Colors.black,);
+              ,
+            Expanded(flex: 2,
+                child: Align(alignment: Alignment.bottomCenter,
+                    child: GridView.builder(
+                        itemCount: buttons.length
+                        ,gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 5,
+                        childAspectRatio: 2.9 * MediaQuery.of(context).size.aspectRatio),
+                        itemBuilder: (BuildContext context, int index){
+                          return AspectRatio(
+                            aspectRatio: MediaQuery.of(context).orientation == Orientation.portrait ? 1.0 : 2.0,
+                            child: getTouchedButton(index, MediaQuery.of(context).orientation == Orientation.portrait ? 1.0 : 2.0),
+                          );
 
-                          case "%":  return MyButton(numKey: (){
-                            setState(() {
-                              expression += buttons[index];
-                              putButtonToDebug(buttons[index]);
-                            });
-                          },buttonText: buttons[index], color: Colors.grey, textColor: Colors.black,);
-
-                          case "C": return MyButton(numKey: (){
-                            setState(() {
-                              expression = expression.substring(0, expression.length - 1);
-                              putButtonToDebug(buttons[index]);
-                            });
-                          },buttonText: buttons[index], color: Colors.grey, textColor: Colors.black,);
-
-                          case "=": return MyButton(numKey: (){
-                            setState(() {
-                              equalPressed();
-                              putButtonToDebug(buttons[index]);
-                            });
-                          },buttonText: buttons[index]);
-                          default: return MyButton(numKey: (){
-                            setState(() {
-                              expression += buttons[index];
-                              putButtonToDebug(buttons[index]);
-                            });
-                          },buttonText: buttons[index],
-                            color: Colors.greenAccent,);
-                        }
-                      })
-                ))
+                        })),
+                )
           ],
       ),
     );
