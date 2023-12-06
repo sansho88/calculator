@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:math_expressions/math_expressions.dart';
 import 'package:flutter/material.dart';
 
@@ -129,6 +131,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    const baseFontSize = 42.0;
+
+    double dynamFontSize(){
+    double fontSize = baseFontSize;
+    final textPainter = TextPainter(
+      text: TextSpan(text: expression, style: TextStyle(fontSize: fontSize)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    while (textPainter.width > MediaQuery.of(context).size.width - 50 && fontSize > 20) {
+      fontSize -= 1.0; // Réduire progressivement la taille de la police
+      textPainter.text = TextSpan(text: expression, style: TextStyle(fontSize: fontSize));
+      textPainter.layout();
+    }
+
+    return fontSize;
+    }//(42 * (1 / (expression.length + 1).toDouble() * 2 + 0.5) + 20);
 
     return Scaffold(
       appBar: AppBar(
@@ -146,9 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       alignment: Alignment.topRight,
                       child: Text(
                         expression.isEmpty ? "0": expression,
-                        style: const TextStyle(fontSize: 42, color: Colors.amber),
+                        style:  TextStyle(fontSize: dynamFontSize(), color: Colors.amber),
                         softWrap: true,
-                        maxLines: MediaQuery.of(context).orientation == Orientation.portrait ? 6 : 1,
+                        maxLines: MediaQuery.of(context).orientation == Orientation.portrait ? 6 : 2,
 
                       ),
                     ),
