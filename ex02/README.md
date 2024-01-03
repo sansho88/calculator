@@ -53,3 +53,9 @@ You can have something like this :
 
 > [!WARNING]
 > Your apllication must NEVER crash!
+
+## My Calculator:
+![image](https://github.com/sansho88/calculator/assets/1939201/8301b5f0-5869-4528-ba92-c0254790f072)
+![image](https://github.com/sansho88/calculator/assets/1939201/8fd6f63c-2555-4eea-85e7-ffa43e780dcd)
+
+
