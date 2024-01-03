@@ -1,16 +1,12 @@
-# ex01
+# Exercise 01: Say Hello to the World
 
-Say Hello to the World
+Now you will have to make sure that the text you display in the application changes
+when you click on the button.
 
-## Getting Started
+It should display “Hello World!” instead of your initial text.
 
-This project is a starting point for a Flutter application.
+Each time you click on the button the text should switch between your initial text and
+“hello world!”.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://github.com/sansho88/calculator/assets/1939201/4570ae52-bcd8-4052-93d6-18551ea9be1c)
+![image](https://github.com/sansho88/calculator/assets/1939201/87ae06ce-159d-452e-b417-06a90c9d986b)
