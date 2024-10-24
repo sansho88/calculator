@@ -10,12 +10,12 @@
 - **Instructions** : Modifier le texte affiché entre "Hello World!" et un texte initial à chaque clic sur le bouton.
 - **Points clés** : Utiliser des événements pour modifier le contenu affiché.
 
-## Exercise 02: Moar buttons
+## Exercise 02: Calculator: Design
 - **Objectif** : Créer une application de calculatrice simple.
 - **Instructions** : Afficher une barre d'application avec le titre "Calculator", deux champs de texte (expression et résultat) et plusieurs boutons pour les chiffres, les opérateurs et les commandes de suppression.
 - **Points clés** : Gérer les interactions utilisateur pour construire une interface de calculatrice.
 
-## Exercise 03: It’s alive!
+## Exercise 03: Calculator: Fonctionnelle (merged dans l'ex02)
 - **Objectif** : Ajouter la logique de calcul à la calculatrice.
 - **Instructions** : Faire fonctionner la calculatrice pour effectuer des opérations d'addition, soustraction, multiplication et division, gérer les nombres négatifs et décimaux, ainsi que la suppression des caractères et des expressions.
 - **Points clés** : Implémenter la logique pour effectuer les opérations mathématiques correctement tout en gérant les cas d'erreur sans que l'application ne plante.
